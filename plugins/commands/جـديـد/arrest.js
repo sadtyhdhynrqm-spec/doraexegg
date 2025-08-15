@@ -2,24 +2,24 @@ import { join } from "path";
 import { loadImage, createCanvas } from "canvas";
 
 export const config = {
-    name: "kiss",
+    name: "arrest",
     version: "0.0.1-xaviabot-port-refactor",
-    credits: "Clarence DK",
-    description: "",
+    credits: "Joshua Sy",
+    description: "Arrrest a friend you mention",
     usage: "[tag]",
     cooldown: 5
 };
 
-const kissPath = join(global.assetsPath, "kiss-template.png");
+const arrestPath = join(global.assetsPath, "arrest-template.png");
 export async function onLoad() {
-    global.downloadFile(kissPath, "https://i.imgur.com/T1IZTbG.jpeg");
+    global.downloadFile(arrestPath, "https://i.imgur.com/ep1gG3r.png");
 }
 
 export async function makeImage({ one, two }) {
-    const template = await loadImage(kissPath);
+    const template = await loadImage(arrestPath);
 
-    let avatarPathOne = join(global.cachePath, `avt_${one}.png`);
-    let avatarPathTwo = join(global.cachePath, `avt_${two}.png`);
+    let avatarPathOne = join(global.cachePath, `avt_arr_${one}.png`);
+    let avatarPathTwo = join(global.cachePath, `avt_arr_${two}.png`);
 
     await global.downloadFile(avatarPathOne, global.getAvatarURL(one));
     await global.downloadFile(avatarPathTwo, global.getAvatarURL(two));
@@ -34,10 +34,11 @@ export async function makeImage({ one, two }) {
     const ctx = canvas.getContext("2d");
 
     ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
-    ctx.drawImage(avatarOneCircle, 330, 100, 200, 200);
-    ctx.drawImage(avatarTwoCircle, 500, 130, 190, 190);
+    ctx.drawImage(avatarOneCircle, 375, 9, 100, 100);
+    ctx.drawImage(avatarTwoCircle, 160, 92, 100, 100);
 
-    const pathImg = join(global.cachePath, `kiss_${one}_${two}.png`);
+
+    const pathImg = join(global.cachePath, `marry_${one}_${two}.png`);
     const imageBuffer = canvas.toBuffer();
 
     global.deleteFile(avatarPathOne);
@@ -53,9 +54,17 @@ export async function onCall({ message }) {
     if (!mention[0]) return message.reply("please tag a person.");
     else {
         const one = senderID, two = mention[0];
+        const nameTarget = await global.controllers.Users.getName(two);
         return makeImage({ one, two })
             .then(async path => {
                 await message.reply({
+                    body: `Congratulations on entering the state payroll ${nameTarget}\nWish you happy`,
+                    mentions: [
+                        {
+                            tag: nameTarget,
+                            id: two
+                        }
+                    ],
                     attachment: global.reader(path)
                 }).catch(e => {
                     message.reply("An error occurred, please try again.");
