@@ -12,7 +12,7 @@ const config = {
 
 const langData = {
   "ar_SY": {
-    "help.list": "{list}\n❀━━━━〖مـشـمـش〗━━━━❀\n➜ المجموع: {total} أمر\n➜ استخدم: {syntax} + اسم الأمر",
+    "help.list": "{list}",
     "help.commandNotExists": "❌ الأمر {command} غير موجود.",
     "help.commandDetails": `➜ الاسم: {name}\n➜ الأسماء المستعارة: {aliases}\n➜ الوصف: {description}\n➜ الاستخدام: {usage}\n➜ الصلاحيات: {permissions}\n➜ الفئة: {category}\n➜ وقت الانتظار: {cooldown} ثانية\n➜ المطور: {credits}`,
     "0": "عضو",
@@ -59,25 +59,28 @@ async function onCall({ message, args, getLang, userPermissions, prefix}) {
       commands[category].push(displayName);
 }
 
-    let list = Object.keys(commands)
-.map(category => {
-        const cmds = commands[category];
-        const grouped = [];
+    let list = "⊙─────『قائمة الاوامر』─────⊙\n\n";
 
-        for (let i = 0; i < cmds.length; i += 4) {
-          grouped.push(cmds.slice(i, i + 4).join(" | "));
+    for (const [category, cmds] of Object.entries(commands)) {
+      list += ` ▣  ❴ ${category} ❵ ➨ \n\n`;
+
+      for (let i = 0; i < cmds.length; i += 4) {
+        const row = cmds.slice(i, i + 4).map(cmd => `◉ ${cmd}`).join("  ");
+        list += `${row}\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n`;
 }
 
-        return `❖ ${category}:\n${grouped.join("\n")}`;
-})
-.join("\n\n");
+      list += "\n";
+}
 
     const total = Object.values(commands).reduce((sum, arr) => sum + arr.length, 0);
-    message.reply(getLang("help.list", {
-      list,
-      total,
-      syntax: prefix
-}));
+    list += `⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n`;
+    list += `    ▪ ❴ الاوامر ❵  ➨  ${total}\n`;
+    list += `    ▪ ❴ الاسم  ❵  ➨  شينزو\n`;
+    list += `    ▪ ❴ المطور ❵  ➨  ࢪاكـو سان\n`;
+    list += `⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n`;
+    list += `▣ ${prefix}مساعدة + اسم الامر لرئية تفاصيل الامر`;
+
+    message.reply(getLang("help.list", { list}));
 } else {
     const command = commandsConfig.get(getCommandName(commandName));
     if (!command) return message.reply(getLang("help.commandNotExists", { command: commandName}));
