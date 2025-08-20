@@ -18,6 +18,7 @@ export const langData = {
 },
 };
 
+// 🧠 دالة جلب صورة البروفايل
 async function getAvatarUrl(userID) {
   try {
     const res = await axios.post("https://www.facebook.com/api/graphql/", null, {
@@ -37,18 +38,25 @@ export async function onCall({ message, getLang}) {
     const { mentions, messageReply, senderID} = message;
     const targetID = Object.keys(mentions)[0] || messageReply?.senderID || senderID;
 
+    // ✅ تأكد من وجود مجلد الكاش
+    await fs.ensureDir(global.cachePath);
+
+    // تحميل صورة البروفايل
     const avatarUrl = await getAvatarUrl(targetID);
     const avatarPath = join(global.cachePath, `wanted_${targetID}.png`);
     await global.downloadFile(avatarPath, avatarUrl);
-
     const avatar = await loadImage(avatarPath);
-    const templatePath = join(__dirname, "wanted-arabic.png"); // الصورة اللي أرفقتها
-    const template = await loadImage(templatePath);
 
+    // تحميل صورة البوستر
+    const posterURL = "https://i.postimg.cc/vmFqjkw8/467471884-1091680152417037-7359182676446817237-n.jpg";
+    const posterPath = join(global.cachePath, "wanted_template.png");
+    await global.downloadFile(posterPath, posterURL);
+    const template = await loadImage(posterPath);
+
+    // إنشاء التصميم
     const canvas = createCanvas(template.width, template.height);
     const ctx = canvas.getContext("2d");
 
-    // رسم الخلفية
     ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
     // إعدادات الصورة داخل المربع
@@ -63,10 +71,14 @@ export async function onCall({ message, getLang}) {
     ctx.drawImage(avatar, boxX, boxY, boxSize, boxSize);
     ctx.restore();
 
+    // حفظ الصورة النهائية
     const outputPath = join(global.cachePath, `wanted_result_${targetID}.png`);
     const buffer = canvas.toBuffer("image/png");
     fs.writeFileSync(outputPath, buffer);
+
+    // حذف الملفات المؤقتة
     fs.unlinkSync(avatarPath);
+    fs.unlinkSync(posterPath);
 
     return message.reply({
       attachment: fs.createReadStream(outputPath)
