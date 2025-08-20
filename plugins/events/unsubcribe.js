@@ -56,9 +56,9 @@ async function createLeaveCard({ userID, username, threadName, threadID}) {
 
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 32px Sans";
-  ctx.fillText(`${username} غادر المجموعة`, 230, 150);
-  ctx.fillText(`من ${threadName}`, 230, 200);
-  ctx.fillText(`نتمنى له التوفيق!`, 230, 250);
+  ctx.fillText(`${username} كان رقاصة`, 230, 150);
+  ctx.fillText(`وزع من ${threadName}`, 230, 200);
+  ctx.fillText(` بي وشك •-•`, 230, 250);
 
   const outputPath = path.join(global.mainPath, "plugins/events/unsubcribeGifs", `${threadID}.png`);
   await fs.ensureDir(path.dirname(outputPath));
