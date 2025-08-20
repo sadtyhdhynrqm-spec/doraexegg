@@ -40,11 +40,13 @@ async function createLeaveCard({ userID, username, threadName, threadID}) {
   const background = await loadImage(backgroundUrl);
   const avatar = await loadImage(avatarUrl);
 
+  // خلفية
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
-  const avatarSize = 150;
-  const avatarX = 50;
-  const avatarY = canvas.height / 2 - avatarSize / 2;
+  // صورة البروفايل في المنتصف
+  const avatarSize = 160;
+  const avatarX = canvas.width / 2 - avatarSize / 2;
+  const avatarY = 50;
 
   ctx.save();
   ctx.beginPath();
@@ -54,11 +56,22 @@ async function createLeaveCard({ userID, username, threadName, threadID}) {
   ctx.drawImage(avatar, avatarX, avatarY, avatarSize, avatarSize);
   ctx.restore();
 
+  // بوردر أبيض حول الصورة
+  ctx.beginPath();
+  ctx.arc(avatarX + avatarSize / 2, avatarY + avatarSize / 2, avatarSize / 2 + 2, 0, Math.PI * 2, true);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = "#ffffff";
+  ctx.stroke();
+
+  // النصوص تحت الصورة
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 32px Sans";
-  ctx.fillText(`${username} كان رقاصة`, 230, 150);
-  ctx.fillText(`وزع من ${threadName}`, 230, 200);
-  ctx.fillText(` بي وشك •-•`, 230, 250);
+  ctx.font = "bold 30px Sans";
+  ctx.textAlign = "center";
+
+  ctx.fillText(`${username} كان رقاصة`, canvas.width / 2, avatarY + avatarSize + 40);
+  ctx.font = "28px Sans";
+  ctx.fillText(`وزع من ${threadName}`, canvas.width / 2, avatarY + avatarSize + 80);
+  ctx.fillText(`بي وشك •-•`, canvas.width / 2, avatarY + avatarSize + 120);
 
   const outputPath = path.join(global.mainPath, "plugins/events/unsubcribeGifs", `${threadID}.png`);
   await fs.ensureDir(path.dirname(outputPath));
@@ -69,7 +82,7 @@ async function createLeaveCard({ userID, username, threadName, threadID}) {
 }
 
 export default async function ({ event}) {
-  const { api} = global;
+  const { api, botID} = global;
   const { threadID, author, logMessageData} = event;
   const { Threads, Users} = global.controllers;
   const getThread = await Threads.get(threadID) || {};
@@ -104,13 +117,12 @@ export default async function ({ event}) {
 
     return;
 }
-
-  const leftName = (await Users.getInfo(logMessageData.leftParticipantFbId))?.name || logMessageData.leftParticipantFbId;
+const leftName = (await Users.getInfo(logMessageData.leftParticipantFbId))?.name || logMessageData.leftParticipantFbId;
 
   let atlertMsg = {
     body: (getThread?.data?.leaveMessage || getLang(`plugins.events.unsubcribe.${type}`))
 .replace(/\{leftName}/g, leftName),
-      mentions: [{
+    mentions: [{
       tag: leftName,
       id: logMessageData.leftParticipantFbId
 }]
