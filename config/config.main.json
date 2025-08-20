@@ -11,18 +11,18 @@
         "selfListen": false,
         "listenEvents": true,
         "forceLogin": true,
-        "userAgent": "Mozilla/5.0 (Linux; Android 13; SM-G973U Build/TP1A.220624.014) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.5790.170 Mobile Safari/537.36",
+        "userAgent": "Mozilla/5.0 (Linux; Android 9; SM-G973U Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.3",
         "online": true
     },
     "LANGUAGE": "ar_SY",
     "LOG_LEVEL": 1,
     "MODERATORS": [
         "61553754531086", 
-        "61579194721841"
+        ""
     ],
     "ABSOLUTES": [
         "61553754531086", 
-        "61579194721841"
+        ""
     ],
     "NAME": "ⓂⓈⒽⓂⓈⒽ ⒷⓄⓉ",
     "PREFIX": "-",
