@@ -1,4 +1,4 @@
-build.js
+# _build.js
 build.start.varLoaded: "تم تحميل متغير البيئة بنجاح."
 build.start.exit: "التنظيف والخروج..."
 build.start.serverStarted: "تمت تهيئة الخادم في البوابة {port} بكلمة سر: {serverAdminPassword}"
@@ -72,14 +72,14 @@ plugins.events.subcribe.connected: "❀━━━━〖 مـشـمـش 〗━━�
 plugins.events.subcribe.error.createMonitor: "تعذر إنشاء مجموعة مشرفين لهذه المجموعة."
 plugins.events.subcribe.createdMonitor: "المجموعة {threadId} سيتم رصد العمل في هذه المجموعة"
 # plugins.events.subcribe.addMembers: "\"{authorName}\" ({authorId}) اضاف {membersLength} عضو:\n{members}"
-plugins.events.subcribe.welcome: "◆━━━━━▣ ✿ ▣━━━━━━◆\n ❏ اهلا بـك يا  | ${members} \n ❏ في مجموعة |  ${threadName} \n ❏ الاعــضــــاء  | ${newCount} \n ❏ تـــــذكــيـــر  |  واذكـر الـلـه ذكـرا كـثيـرا 🤍 \n◆━━━━━▣ ✿ ▣━━━━━━◆\n\n"
+plugins.events.subcribe.welcome: "◆━━━━━▣ ✿ ▣━━━━━━◆\n ❏ اهلا بـك يا  | {members} \n ❏ في مجموعة |  {threadName} \n ❏ الاعــضــــاء  | {newCount} \n ❏ اتقي شر من احسنت اليه 🫶 \n◆━━━━━▣ ✿ ▣━━━━━━◆\n\n"
 plugins.events.subcribe.warns: "{username} تم طرده بسبب تجاوز الحد الأقصى لعدد التحذيرات."
 
 plugins.events.unsubcribe.bot.left: "Bot غادر \"{threadName}\" ({threadId})."
 plugins.events.unsubcribe.bot.kicked: "Bot تم طرده من \"{threadName}\" ({threadId}) بواسطة \"{authorName}\" ({authorId})."
 # plugins.events.unsubcribe.left: "\"{leftName}\" ({leftId}) غادر بكرامته ಥ‿ಥ ."
 # plugins.events.unsubcribe.kicked: "\"{leftName}\" ({leftId}) تم طرده من قبل\"{authorName}\" ({authorId})."
-plugins.events.unsubcribe.left: "{leftName} كان رقاصة."
+plugins.events.unsubcribe.left: "{leftName} كــــــــان رقـــــــاصـــة (〃ﾟ3ﾟ〃) "
 plugins.events.unsubcribe.kicked: "{leftName} هـل تـعـرف مــاهـي الـتـكـة؟ اذا لـم تـعـرف فلا تـسـتـحـق ان تـكـون هـنـا \n بـــــــــــانــــكـــي ヽ(*´з｀*)ﾉ"
 plugins.events.unsubcribe.antiOut.error: "حاولت ارجعو لاكن طلع عب ما نافع عشان كدا كسرت حنكو 🙂💔"
 plugins.events.unsubcribe.antiOut.success: "الفارة عامل فيها طالع، 🗿 مافي طلوع بكرامه وانا قاعد  😇"
